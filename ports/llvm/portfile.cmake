@@ -378,6 +378,11 @@ if(NOT DEFINED VCPKG_BUILD_TYPE OR VCPKG_BUILD_TYPE STREQUAL "debug")
         "${CURRENT_PACKAGES_DIR}/debug/share"
         "${CURRENT_PACKAGES_DIR}/debug/tools"
     )
+else()
+    if("mlir" IN_LIST FEATURES)
+        # Overwrite MLIRTargets.cmake with the correct file to workaround https://github.com/llvm/llvm-project/issues/51676
+        file(COPY "${CURRENT_BUILDTREES_DIR}/${TARGET_TRIPLET}-rel/lib/cmake/mlir/MLIRTargets.cmake" "${CURRENT_PACKAGES_DIR}/share/mlir/MLIRConfig.cmake"
+    endif()
 endif()
 
 if("mlir" IN_LIST FEATURES)
