@@ -48,6 +48,8 @@ if(VCPKG_TARGET_IS_ANDROID)
     # asm on arm32 NEON is broken, https://github.com/openssl/openssl/pull/21583#issuecomment-1727057735
     if(VCPKG_DETECTED_CMAKE_ANDROID_ARCH STREQUAL "arm" #[[AND NOT VCPKG_DETECTED_CMAKE_ANDROID_ARM_NEON]])
         vcpkg_list(APPEND CONFIGURE_OPTIONS no-asm)
+    else(VCPKG_DETECTED_CMAKE_ANDROID_ARCH STREQUAL "x86")
+        vcpkg_list(APPEND CONFIGURE_OPTIONS no-asm)
     endif()
 elseif(VCPKG_TARGET_IS_LINUX)
     if(VCPKG_TARGET_ARCHITECTURE MATCHES "arm64")
