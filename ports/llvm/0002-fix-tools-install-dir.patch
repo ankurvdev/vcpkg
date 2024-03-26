@@ -185,19 +185,6 @@ index d3924f7243d4..318b41b73705 100644
        COMPONENT ${name})
  
      if(NOT CMAKE_CONFIGURATION_TYPES)
-diff --git a/lld/tools/lld/CMakeLists.txt b/lld/tools/lld/CMakeLists.txt
-index 12628395680b..ee58ed439a3a 100644
---- a/lld/tools/lld/CMakeLists.txt
-+++ b/lld/tools/lld/CMakeLists.txt
-@@ -29,7 +29,7 @@ lld_target_link_libraries(lld
-   )
- 
- install(TARGETS lld
--  RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}")
-+  RUNTIME DESTINATION "${LLD_TOOLS_INSTALL_DIR}")
- 
- if(NOT LLD_SYMLINKS_TO_CREATE)
-   set(LLD_SYMLINKS_TO_CREATE
 diff --git a/lldb/cmake/modules/AddLLDB.cmake b/lldb/cmake/modules/AddLLDB.cmake
 index d47a30f5e109..f0bbc0e50627 100644
 --- a/lldb/cmake/modules/AddLLDB.cmake
