@@ -4,7 +4,7 @@ vcpkg_from_github(
     OUT_SOURCE_PATH SOURCE_PATH
     REPO llvm/llvm-project
     REF "llvmorg-${VERSION}"
-    SHA512 362ddb94fdd22d05bd11c950f1711eafbd47424f6da0b1b061da012ef1b39dd8f7efeb91b53c036ea0708aa3845893fe39d1fb529ac3b928df738b88717d1aee
+    SHA512 49b7787d1ceb2ad485bd83ee3864c05d70e063584254622f7b0c445075d5f40989bb76cfedf93be7236e273871258058310efeef4cc2c64b767b4eb6e5ed8e58
     HEAD_REF main
     PATCHES
         0001-fix-install-package-dir.patch
@@ -13,9 +13,6 @@ vcpkg_from_github(
         0004-disable-libomp-aliases.patch
         0005-remove-numpy.patch
         0006-create-destination-mlir-directory.patch
-        0007-fix-compiler-rt-warnings.patch # fixed in upstream
-        0008-add-missing-case.patch # From upstream https://github.com/llvm/llvm-project/pull/72401
-        0009-add-missing-typename.patch # Fixed in version 18.1.0 and later
 )
 
 vcpkg_check_features(
