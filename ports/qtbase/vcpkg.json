@@ -9,7 +9,7 @@
   "dependencies": [
     {
       "name": "libb2",
-      "platform": "!windows"
+      "platform": "!windows & !wasm32"
     },
     "pcre2",
     {
@@ -61,7 +61,6 @@
   "default-features": [
     "brotli",
     "concurrent",
-    "dbus",
     "default-features",
     "doubleconversion",
     "freetype",
@@ -85,7 +84,6 @@
       "platform": "ios"
     },
     "sql",
-    "sql-psql",
     "sql-sqlite",
     "testlib",
     "thread",
@@ -157,8 +155,10 @@
           "name": "qtbase",
           "default-features": false,
           "features": [
+            "dbus",
             "egl",
             "fontconfig",
+            "sql-psql",
             "xcb",
             "xcb-xlib",
             "xrender"
@@ -173,6 +173,15 @@
             "gles2"
           ],
           "platform": "android"
+        },
+        {
+          "name": "qtbase",
+          "default-features": false,
+          "features": [
+            "egl",
+            "gles2"
+          ],
+          "platform": "wasm32"
         }
       ]
     },
@@ -184,7 +193,7 @@
     },
     "egl": {
       "description": "EGL",
-      "supports": "linux",
+      "supports": "linux | android | wasm32",
       "dependencies": [
         "egl"
       ]
