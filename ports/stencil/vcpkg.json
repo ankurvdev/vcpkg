@@ -1,7 +1,7 @@
 {
   "name": "stencil",
   "version": "0.1.20",
-  "port-version": 3,
+  "port-version": 4,
   "description": "Cross Platform Resource Embedding",
   "homepage": "https://github.com/ankurvdev/stencil",
   "license": "BSD-3-Clause",
