@@ -6,7 +6,7 @@ diff --urN a/source/extra/Makefile.in b/source/extra/Makefile.in
  CLEANFILES = *~
  
 -SUBDIRS = scrptrun uconv
-+SUBDIRS = uconv
++SUBDIRS = 
  
  ## List of phony targets
  .PHONY : all all-local all-recursive install install-local		\
