@@ -7,6 +7,8 @@ vcpkg_from_github(
     PATCHES
         Compile-with-msvc.patch
         fix-version.patch
+        fix-pthread-cancel.patch
+        android_static_fixes.patch
 )
 
 file(
@@ -29,7 +31,6 @@ file(
 )
 
 file(REMOVE_RECURSE "${CURRENT_PACKAGES_DIR}/debug/include")
-
 if(VCPKG_LIBRARY_LINKAGE STREQUAL "static")
     file(REMOVE_RECURSE "${CURRENT_PACKAGES_DIR}/bin" "${CURRENT_PACKAGES_DIR}/debug/bin")
 else()
