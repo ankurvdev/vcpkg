@@ -150,7 +150,7 @@ if(VCPKG_DETECTED_CMAKE_STRIP)
     list(APPEND prog_env "${STRIP_path}")
 endif()
 
-if(VCPKG_HOST_IS_WINDOWS)
+if(VCPKG_HOST_IS_WINDOWS AND NOT VCPKG_TARGET_IS_MINGW)
     vcpkg_acquire_msys(MSYS_ROOT PACKAGES automake1.16)
     set(SHELL "${MSYS_ROOT}/usr/bin/bash.exe")
     list(APPEND prog_env "${MSYS_ROOT}/usr/bin" "${MSYS_ROOT}/usr/share/automake-1.16")
