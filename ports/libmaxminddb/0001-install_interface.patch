@@ -1,0 +1,24 @@
+From fa149cbe8eaecf6eec183afb6fde5ad3abd9f11e Mon Sep 17 00:00:00 2001
+From: ankurv <ankur@verma>
+Date: Mon, 29 Jul 2024 23:15:06 -0700
+Subject: [PATCH] install_interface
+
+---
+ CMakeLists.txt | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 80d55d2..c16344e 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -81,7 +81,6 @@ target_include_directories(maxminddb PUBLIC
+   $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
+   $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/generated/>
+   $<INSTALL_INTERFACE:include>
+-  $<INSTALL_INTERFACE:generated>
+ )
+ 
+ set(MAXMINDB_HEADERS
+-- 
+2.45.2
+
