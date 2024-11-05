@@ -19,6 +19,7 @@
     "foxi",
     "foxi",
     "fp16",
+    "fbgemm,"
     "gemmlowp",
     "gflags",
     "glog",

@@ -147,6 +147,7 @@ vcpkg_cmake_configure(
         -DUSE_METAL=OFF
         -DUSE_PYTORCH_METAL=OFF
         -DUSE_PYTORCH_METAL_EXPORT=OFF
+        -DUSE_FBGEMM=ON
         -DUSE_GFLAGS=ON
         -DUSE_GLOG=ON
         -DUSE_ITT=OFF
