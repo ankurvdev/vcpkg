@@ -21,10 +21,12 @@
     "fp16",
     "gflags",
     "glog",
-    "lapack",
     "lmdb",
     "mimalloc",
+<<<<<<< Updated upstream
     "nlohmann-json",
+=======
+>>>>>>> Stashed changes
     "opencl",
     "pocketfft",
     "protobuf",

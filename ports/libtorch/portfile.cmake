@@ -124,7 +124,7 @@ else()
 endif()
 
 string(COMPARE EQUAL "${VCPKG_CRT_LINKAGE}" "static" USE_STATIC_RUNTIME)
-
+set(ENV{BUILD_PYTORCH_MOBILE_WITH_HOST_TOOLCHAIN} "ON")
 vcpkg_cmake_configure(
     SOURCE_PATH "${SOURCE_PATH}"
     DISABLE_PARALLEL_CONFIGURE
@@ -139,6 +139,7 @@ vcpkg_cmake_configure(
         -DCAFFE2_STATIC_LINK_CUDA=ON
         -DCAFFE2_USE_MSVC_STATIC_RUNTIME=${USE_STATIC_RUNTIME}
         -DBUILD_CUSTOM_PROTOBUF=OFF
+        -DBUILD_PYTHON=OFF
         -DUSE_LITE_PROTO=OFF
         -DBUILD_TEST=OFF
         -DATEN_NO_TEST=ON
@@ -148,14 +149,18 @@ vcpkg_cmake_configure(
         -DUSE_PYTORCH_METAL_EXPORT=OFF
         -DUSE_PYTORCH_QNNPACK:BOOL=OFF
         -DUSE_GFLAGS=ON
+<<<<<<< Updated upstream
         -DUSE_GLOG=ON
+=======
+        -DUSE_GLOG=OFF
+        -DUSE_LMDB=ON
+>>>>>>> Stashed changes
         -DUSE_ITT=OFF
         -DUSE_ROCKSDB=ON
         -DUSE_OBSERVERS=OFF
         -DUSE_KINETO=OFF
         -DUSE_ROCM=OFF
         -DUSE_NUMA=OFF
-        -DUSE_SYSTEM_ONNX=ON
         -DUSE_SYSTEM_FP16=ON
         -DUSE_SYSTEM_EIGEN_INSTALL=ON
         -DUSE_SYSTEM_CPUINFO=ON
