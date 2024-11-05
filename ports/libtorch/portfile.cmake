@@ -1,4 +1,3 @@
-
 vcpkg_from_github(
     OUT_SOURCE_PATH SOURCE_PATH
     REPO pytorch/pytorch
@@ -19,6 +18,7 @@ vcpkg_from_github(
         fix-calculate-minloglevel.patch
         force-cuda-include.patch
         fix-aten-cutlass.patch
+        mingw.patch
 )
 
 file(REMOVE_RECURSE "${SOURCE_PATH}/caffe2/core/macros.h") # We must use generated header files
@@ -132,10 +132,9 @@ vcpkg_cmake_configure(
         ${FEATURE_OPTIONS}
         -DProtobuf_PROTOC_EXECUTABLE:FILEPATH=${PROTOC}
         -DCAFFE2_CUSTOM_PROTOC_EXECUTABLE:FILEPATH=${PROTOC}
-        # Should be enabled in-future along with the "python" feature (currently disabled)
-        # -DPYTHON_EXECUTABLE:FILEPATH=${PYTHON3}
-        #-DPython3_EXECUTABLE:FILEPATH=${PYTHON3}
+        -DPython3_EXECUTABLE:FILEPATH=${PYTHON3}
         -DBUILD_PYTHON=OFF
+        -DINTERN_DISABLE_ONNX=ON
         -DUSE_NUMPY=OFF
         -DCAFFE2_STATIC_LINK_CUDA=ON
         -DCAFFE2_USE_MSVC_STATIC_RUNTIME=${USE_STATIC_RUNTIME}
@@ -147,6 +146,7 @@ vcpkg_cmake_configure(
         -DUSE_METAL=OFF
         -DUSE_PYTORCH_METAL=OFF
         -DUSE_PYTORCH_METAL_EXPORT=OFF
+        -DUSE_PYTORCH_QNNPACK:BOOL=OFF
         -DUSE_GFLAGS=ON
         -DUSE_GLOG=ON
         -DUSE_ITT=OFF
