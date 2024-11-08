@@ -24,6 +24,8 @@
     "lmdb",
     "mimalloc",
     "nlohmann-json",
+    "onnx",
+    "onnx-optimizer",
     "opencl",
     "pocketfft",
     "protobuf",
@@ -47,11 +49,19 @@
     },
     "xnnpack"
   ],
-  "default-features": ["opencv", "zstd"],
+  "default-features": [
+    "opencv",
+    "zstd"
+  ],
   "features": {
     "cuda": {
       "description": "Build with CUDA GPU backend",
-      "dependencies": ["cuda", "cudnn", "magma", "nvidia-cutlass"]
+      "dependencies": [
+        "cuda",
+        "cudnn",
+        "magma",
+        "nvidia-cutlass"
+      ]
     },
     "dist": {
       "description": "Use distributed with MPI, Gloo, libuv, TensorPipe",
@@ -63,7 +73,9 @@
         {
           "name": "libtorch",
           "default-features": false,
-          "features": ["mpi"],
+          "features": [
+            "mpi"
+          ],
           "platform": "linux"
         },
         {
@@ -78,32 +90,49 @@
     },
     "leveldb": {
       "description": "Build with LevelDB",
-      "dependencies": ["leveldb", "snappy"]
+      "dependencies": [
+        "leveldb",
+        "snappy"
+      ]
     },
     "llvm": {
       "description": "Build with LLVM",
-      "dependencies": ["llvm"]
+      "dependencies": [
+        "llvm"
+      ]
     },
     "mpi": {
       "description": "Build with MPI",
-      "dependencies": ["mpi"]
+      "dependencies": [
+        "mpi"
+      ]
     },
     "nnpack": {
       "description": "Build with NNPack",
       "supports": "linux | osx",
-      "dependencies": ["nnpack"]
+      "dependencies": [
+        "nnpack"
+      ]
     },
     "opencv": {
       "description": "Build with OpenCV 3.x",
-      "dependencies": ["opencv"]
+      "dependencies": [
+        "opencv"
+      ]
     },
     "vulkan": {
       "description": "Build with Vulkan GPU backend",
-      "dependencies": ["vulkan", "vulkan-loader", "vulkan-memory-allocator"]
+      "dependencies": [
+        "vulkan",
+        "vulkan-loader",
+        "vulkan-memory-allocator"
+      ]
     },
     "zstd": {
       "description": "Build with ZSTD",
-      "dependencies": ["zstd"]
+      "dependencies": [
+        "zstd"
+      ]
     }
   }
 }
