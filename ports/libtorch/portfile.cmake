@@ -18,7 +18,7 @@ vcpkg_from_github(
         fix-calculate-minloglevel.patch
         force-cuda-include.patch
         fix-aten-cutlass.patch
-        mingw.patch
+        #mingw.patch
 )
 
 file(REMOVE_RECURSE "${SOURCE_PATH}/caffe2/core/macros.h") # We must use generated header files
