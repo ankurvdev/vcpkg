@@ -154,6 +154,7 @@ vcpkg_cmake_configure(
         -DUSE_KINETO=OFF
         -DUSE_ROCM=OFF
         -DUSE_NUMA=OFF
+        -DUSE_SYSTEM_ONNX=ON
         -DUSE_SYSTEM_FP16=ON
         -DUSE_SYSTEM_EIGEN_INSTALL=ON
         -DUSE_SYSTEM_CPUINFO=ON
