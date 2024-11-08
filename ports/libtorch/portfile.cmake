@@ -124,7 +124,6 @@ else()
 endif()
 
 string(COMPARE EQUAL "${VCPKG_CRT_LINKAGE}" "static" USE_STATIC_RUNTIME)
-set(ENV{BUILD_PYTORCH_MOBILE_WITH_HOST_TOOLCHAIN} "ON")
 vcpkg_cmake_configure(
     SOURCE_PATH "${SOURCE_PATH}"
     DISABLE_PARALLEL_CONFIGURE
@@ -149,12 +148,7 @@ vcpkg_cmake_configure(
         -DUSE_PYTORCH_METAL_EXPORT=OFF
         -DUSE_PYTORCH_QNNPACK:BOOL=OFF
         -DUSE_GFLAGS=ON
-<<<<<<< Updated upstream
         -DUSE_GLOG=ON
-=======
-        -DUSE_GLOG=OFF
-        -DUSE_LMDB=ON
->>>>>>> Stashed changes
         -DUSE_ITT=OFF
         -DUSE_ROCKSDB=ON
         -DUSE_OBSERVERS=OFF
