@@ -4,7 +4,7 @@
   "description": "Tensors and Dynamic neural networks in Python with strong GPU acceleration",
   "homepage": "https://pytorch.org/",
   "license": null,
-  "supports": "(windows & !static) | osx | linux",
+  "supports": "windows | osx | linux | mingw",
   "dependencies": [
     "blas",
     "cpuinfo",
@@ -19,11 +19,10 @@
     "foxi",
     "foxi",
     "fp16",
-    "fbgemm,"
+    "fbgemm,",
     "gemmlowp",
     "gflags",
     "glog",
-    "lapack",
     "lmdb",
     "mimalloc",
     "nlohmann-json",
@@ -53,10 +52,6 @@
     "xnnpack"
   ],
   "default-features": [
-    {
-      "name": "cuda",
-      "platform": "windows & !x86"
-    },
     "opencv",
     "zstd"
   ],

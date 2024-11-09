@@ -1,0 +1,101 @@
+Only in b/aten/src/ATen: Config.h
+diff -ru a/aten/src/ATen/native/quantized/cpu/qnnpack/CMakeLists.txt b/aten/src/ATen/native/quantized/cpu/qnnpack/CMakeLists.txt
+--- a/aten/src/ATen/native/quantized/cpu/qnnpack/CMakeLists.txt	2024-11-04 22:42:01.560352500 -0800
++++ b/aten/src/ATen/native/quantized/cpu/qnnpack/CMakeLists.txt	2024-11-04 22:09:10.410566900 -0800
+@@ -62,7 +62,7 @@
+ if(NOT CMAKE_SYSTEM_NAME)
+   message(FATAL_ERROR "CMAKE_SYSTEM_NAME not defined")
+ elseif(NOT CMAKE_SYSTEM_NAME MATCHES "^(Darwin|Linux|Android)$")
+-  message(FATAL_ERROR "Unrecognized CMAKE_SYSTEM_NAME = ${CMAKE_SYSTEM_NAME}")
++  #message(FATAL_ERROR "Unrecognized CMAKE_SYSTEM_NAME = ${CMAKE_SYSTEM_NAME}")
+ endif()
+ 
+ # ---[ Download deps
+diff -ru a/cmake/Codegen.cmake b/cmake/Codegen.cmake
+--- a/cmake/Codegen.cmake	2024-10-22 18:14:52.000000000 -0700
++++ b/cmake/Codegen.cmake	2024-11-04 22:38:11.170908300 -0800
+@@ -171,9 +171,9 @@
+   if(USE_PER_OPERATOR_HEADERS)
+     list(APPEND GEN_PER_OPERATOR_FLAG "--per-operator-headers")
+   endif()
+-
++  find_package(Python3 COMPONENTS Interpreter REQUIRED)
+   set(GEN_COMMAND
+-      "${Python_EXECUTABLE}" -m torchgen.gen
++      "${Python3_EXECUTABLE}" -m torchgen.gen
+       --source-path ${CMAKE_CURRENT_LIST_DIR}/../aten/src/ATen
+       --install_dir ${CMAKE_BINARY_DIR}/aten/src/ATen
+       ${GEN_PER_OPERATOR_FLAG}
+@@ -371,7 +371,7 @@
+       ${PROJECT_SOURCE_DIR}/build_variables.bzl
+       ${PROJECT_BINARY_DIR}/caffe2/build_variables.bzl)
+   execute_process(
+-    COMMAND "${Python_EXECUTABLE}" -c
++    COMMAND "${Python3_EXECUTABLE}" -c
+             "exec(open('${PROJECT_SOURCE_DIR}/build_variables.bzl').read());print(';'.join(['${_rootdir}' + x for x in ${name}]))"
+     WORKING_DIRECTORY "${_rootdir}"
+     RESULT_VARIABLE _retval
+diff -ru a/cmake/Dependencies.cmake b/cmake/Dependencies.cmake
+--- a/cmake/Dependencies.cmake	2024-11-04 22:42:01.373253900 -0800
++++ b/cmake/Dependencies.cmake	2024-11-04 22:34:58.177264300 -0800
+@@ -856,9 +856,10 @@
+   endif()
+   find_package(Python COMPONENTS Interpreter OPTIONAL_COMPONENTS ${PYTHON_COMPONENTS})
+ else()
+-  find_package(Python COMPONENTS Interpreter)
++  find_package(Python3 COMPONENTS Interpreter REQUIRED)
+ endif()
+ 
++if(BUILD_PYTHON)
+ if(NOT Python_Interpreter_FOUND)
+   message(FATAL_ERROR "Python3 could not be found.")
+ endif()
+@@ -867,6 +868,7 @@
+   message(FATAL_ERROR
+     "Found Python libraries version ${Python_VERSION}. Python < 3.8 is no longer supported by PyTorch.")
+ endif()
++endif()
+ 
+ # ---[ Python + Numpy
+ if(BUILD_PYTHON)
+@@ -887,6 +889,7 @@
+   endif()
+ endif()
+ 
++if(BUILD_PYTHON)
+ # ---[ pybind11
+ if(USE_SYSTEM_PYBIND11)
+   find_package(pybind11 CONFIG)
+@@ -907,6 +910,7 @@
+ add_library(pybind::pybind11 INTERFACE IMPORTED)
+ target_include_directories(pybind::pybind11 SYSTEM INTERFACE ${pybind11_INCLUDE_DIRS})
+ target_link_libraries(pybind::pybind11 INTERFACE Python::Module)
++endif()
+ 
+ # ---[ OpenTelemetry API headers
+ find_package(OpenTelemetryApi)
+@@ -1299,10 +1303,10 @@
+     endif()
+     list(APPEND Caffe2_DEPENDENCY_WHOLE_LINK_LIBS onnx_library)
+   else()
+-    find_package(ONNX CONFIG REQUIRED)
+-    set(ONNX_LIBRARY ONNX::onnx)
+-    set(ONNX_PROTO_LIBRARY ONNX::onnx_proto)
+-    list(APPEND Caffe2_DEPENDENCY_LIBS ${ONNX_LIBRARY} ${ONNX_PROTO_LIBRARY})
++#    find_package(ONNX CONFIG REQUIRED)
++#    set(ONNX_LIBRARY ONNX::onnx)
++#    set(ONNX_PROTO_LIBRARY ONNX::onnx_proto)
++#    list(APPEND Caffe2_DEPENDENCY_LIBS ${ONNX_LIBRARY} ${ONNX_PROTO_LIBRARY})
+   endif()
+   # Recover the build shared libs option.
+   set(BUILD_SHARED_LIBS ${TEMP_BUILD_SHARED_LIBS})
+Only in b/tools/shared: _utils_internal.py
+Only in b/torch/csrc/api/include/torch: version.h
+Only in b/torch/csrc/inductor/aoti_torch/generated: c_shim_cpu.cpp
+Only in b/torch/csrc/inductor/aoti_torch/generated: c_shim_cuda.cpp
+Only in b/torchgen: __pycache__
+Only in b/torchgen/aoti: __pycache__
+Only in b/torchgen/api: __pycache__
+Only in b/torchgen/api/types: __pycache__
+Only in b/torchgen/dest: __pycache__
+Only in b/torchgen/selective_build: __pycache__

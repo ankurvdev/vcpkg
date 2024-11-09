@@ -1,4 +1,3 @@
-
 vcpkg_from_github(
     OUT_SOURCE_PATH SOURCE_PATH
     REPO pytorch/pytorch
@@ -19,6 +18,7 @@ vcpkg_from_github(
         fix-calculate-minloglevel.patch
         force-cuda-include.patch
         fix-aten-cutlass.patch
+        #mingw.patch
 )
 
 file(REMOVE_RECURSE "${SOURCE_PATH}/caffe2/core/macros.h") # We must use generated header files
@@ -123,8 +123,15 @@ else()
     list(APPEND FEATURE_OPTIONS -DINTERN_BUILD_MOBILE=OFF)
 endif()
 
-string(COMPARE EQUAL "${VCPKG_CRT_LINKAGE}" "static" USE_STATIC_RUNTIME)
+if(VCPKG_TARGET_IS_WINDOWS AND VCPKG_LIBRARY_LINKAGE STREQUAL "static")
+    # torch_cpu is too large to link statically (exceeds 4GB limit)
+    # INTERN_USE_EIGEN_BLAS=OFF is to make sure it uses system eigen blas
+    list(APPEND FEATURE_OPTIONS -DINTERN_BUILD_MOBILE=ON -DINTERN_USE_EIGEN_BLAS=OFF -DUSE_BLAS=OFF)
+    list(APPEND FEATURE_OPTIONS -DMSVC_Z7_OVERRIDE=OFF) # Reduce the size
 
+endif()
+
+string(COMPARE EQUAL "${VCPKG_CRT_LINKAGE}" "static" USE_STATIC_RUNTIME)
 vcpkg_cmake_configure(
     SOURCE_PATH "${SOURCE_PATH}"
     DISABLE_PARALLEL_CONFIGURE
@@ -132,14 +139,13 @@ vcpkg_cmake_configure(
         ${FEATURE_OPTIONS}
         -DProtobuf_PROTOC_EXECUTABLE:FILEPATH=${PROTOC}
         -DCAFFE2_CUSTOM_PROTOC_EXECUTABLE:FILEPATH=${PROTOC}
-        # Should be enabled in-future along with the "python" feature (currently disabled)
-        # -DPYTHON_EXECUTABLE:FILEPATH=${PYTHON3}
-        #-DPython3_EXECUTABLE:FILEPATH=${PYTHON3}
+        -DPython3_EXECUTABLE:FILEPATH=${PYTHON3}
         -DBUILD_PYTHON=OFF
         -DUSE_NUMPY=OFF
         -DCAFFE2_STATIC_LINK_CUDA=ON
         -DCAFFE2_USE_MSVC_STATIC_RUNTIME=${USE_STATIC_RUNTIME}
         -DBUILD_CUSTOM_PROTOBUF=OFF
+        -DBUILD_PYTHON=OFF
         -DUSE_LITE_PROTO=OFF
         -DBUILD_TEST=OFF
         -DATEN_NO_TEST=ON
@@ -148,6 +154,7 @@ vcpkg_cmake_configure(
         -DUSE_PYTORCH_METAL=OFF
         -DUSE_PYTORCH_METAL_EXPORT=OFF
         -DUSE_FBGEMM=ON
+        -DUSE_PYTORCH_QNNPACK:BOOL=OFF
         -DUSE_GFLAGS=ON
         -DUSE_GLOG=ON
         -DUSE_ITT=OFF
