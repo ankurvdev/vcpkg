@@ -9,6 +9,7 @@
     "blas",
     "cpuinfo",
     "eigen3",
+    "fbgemm",
     "fftw3",
     "flatbuffers",
     {
