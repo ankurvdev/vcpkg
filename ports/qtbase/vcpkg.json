@@ -69,10 +69,9 @@
     "brotli",
     "concurrent",
     {
-      "name": "dbus",
-      "platform": "!(static & windows)"
+      "name": "dnslookup",
+      "platform": "!(android | wasm32)"
     },
-    "dnslookup",
     "doubleconversion",
     {
       "name": "egl",
@@ -89,7 +88,7 @@
     "freetype",
     {
       "name": "gles2",
-      "platform": "android"
+      "platform": "(android | wasm32)"
     },
     "gui",
     "harfbuzz",
@@ -111,7 +110,6 @@
       "platform": "ios"
     },
     "sql",
-    "sql-psql",
     "sql-sqlite",
     "testlib",
     "thread",
@@ -189,6 +187,7 @@
     },
     "dnslookup": {
       "description": "Enable DNS lookup support",
+      "supports": "!(android | wasm32)",
       "dependencies": [
         {
           "name": "qtbase",
@@ -207,7 +206,7 @@
     },
     "egl": {
       "description": "EGL",
-      "supports": "linux",
+      "supports": "linux | android | wasm32",
       "dependencies": [
         "egl"
       ]
