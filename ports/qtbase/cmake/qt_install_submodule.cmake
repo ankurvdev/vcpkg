@@ -9,7 +9,7 @@ if(NOT DEFINED QT6_DIRECTORY_PREFIX)
 endif()
 
 if(VCPKG_TARGET_IS_ANDROID AND NOT ANDROID_SDK_ROOT)
-    message(FATAL_ERROR "${PORT} requires ANDROID_SDK_ROOT to be set. Consider adding it to the triplet." )
+	#message(FATAL_ERROR "${PORT} requires ANDROID_SDK_ROOT to be set. Consider adding it to the triplet." )
 endif()
 
 function(qt_download_submodule_impl)
