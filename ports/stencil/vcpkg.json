@@ -24,7 +24,8 @@
     "rapidjson",
     "stduuid",
     "tinyxml2",
-    "toml11"
+    "toml11",
+    "tsl-ordered-map"
   ],
   "features": {
     "tests": {
