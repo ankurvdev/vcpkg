@@ -32,7 +32,7 @@ vcpkg_list(SET CONFIGURE_OPTIONS)
 vcpkg_list(SET BUILD_OPTIONS)
 
 if(VCPKG_TARGET_IS_EMSCRIPTEN)
-    vcpkg_list(APPEND CONFIGURE_OPTIONS --disable-extras)
+    vcpkg_list(APPEND CONFIGURE_OPTIONS --disable-extras --host=wasm32-unknown-linux)
     vcpkg_list(APPEND BUILD_OPTIONS "\"PKGDATA_OPTS=--without-assembly -O ../data/icupkg.inc\"")
 elseif(VCPKG_TARGET_IS_UWP)
     vcpkg_list(APPEND CONFIGURE_OPTIONS --disable-extras ac_cv_func_tzset=no ac_cv_func__tzset=no)
