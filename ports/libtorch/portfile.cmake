@@ -1,4 +1,3 @@
-vcpkg_check_linkage(ONLY_DYNAMIC_LIBRARY)
 
 vcpkg_from_github(
     OUT_SOURCE_PATH SOURCE_PATH
@@ -100,7 +99,7 @@ if("dist" IN_LIST FEATURES)
     if(VCPKG_TARGET_IS_LINUX OR VCPKG_TARGET_IS_OSX)
         list(APPEND FEATURE_OPTIONS -DUSE_TENSORPIPE=ON)
     endif()
-    if(VCPKG_TARGET_IS_OSX)
+    if(VCPKG_TARGET_IS_WINDOWS OR VCPKG_TARGET_IS_OSX)
         list(APPEND FEATURE_OPTIONS -DUSE_LIBUV=ON)
     endif()
     list(APPEND FEATURE_OPTIONS -DUSE_GLOO=${VCPKG_TARGET_IS_LINUX})
@@ -128,6 +127,20 @@ endif()
 set(TARGET_IS_APPLE OFF)
 if(VCPKG_TARGET_IS_IOS OR VCPKG_TARGET_IS_OSX)
     set(TARGET_IS_APPLE ON)
+endif()
+
+if(VCPKG_TARGET_IS_ANDROID OR VCPKG_TARGET_IS_IOS)
+    list(APPEND FEATURE_OPTIONS -DINTERN_BUILD_MOBILE=ON)
+else()
+    list(APPEND FEATURE_OPTIONS -DINTERN_BUILD_MOBILE=OFF)
+endif()
+
+if(VCPKG_TARGET_IS_WINDOWS AND VCPKG_LIBRARY_LINKAGE STREQUAL "static")
+    # torch_cpu is too large to link statically (exceeds 4GB limit)
+    # INTERN_USE_EIGEN_BLAS=OFF is to make sure it uses system eigen blas
+    list(APPEND FEATURE_OPTIONS -DINTERN_BUILD_MOBILE=ON -DINTERN_USE_EIGEN_BLAS=OFF -DUSE_BLAS=OFF)
+    list(APPEND FEATURE_OPTIONS -DMSVC_Z7_OVERRIDE=OFF) # Reduce the size
+
 endif()
 
 string(COMPARE EQUAL "${VCPKG_CRT_LINKAGE}" "static" USE_STATIC_RUNTIME)
@@ -238,3 +251,11 @@ vcpkg_install_copyright(FILE_LIST "${SOURCE_PATH}/LICENSE")
 
 set(VCPKG_POLICY_DLLS_WITHOUT_EXPORTS enabled) # torch_global_deps.dll is empty.c and just for linking deps
 
+set(config "${CURRENT_PACKAGES_DIR}/share/torch/TorchConfig.cmake")
+file(READ "${config}" contents)
+string(REGEX REPLACE "set\\\(NVTOOLEXT_HOME[^)]+" "set(NVTOOLEXT_HOME \"\$ENV{CUDA_PATH}\"" contents "${contents}")
+#string(REGEX REPLACE "set\\\(NVTOOLEXT_HOME[^)]+" "set(NVTOOLEXT_HOME \"\${CMAKE_CURRENT_LIST_DIR}/../../tools/cuda/\"" contents "${contents}")
+string(REGEX REPLACE "\\\${NVTOOLEXT_HOME}/lib/x64/nvToolsExt64_1.lib" "" contents "${contents}")
+file(WRITE "${config}" "${contents}")
+
+vcpkg_replace_string("${CURRENT_PACKAGES_DIR}/include/torch/csrc/autograd/custom_function.h" "struct TORCH_API Function" "struct Function")
