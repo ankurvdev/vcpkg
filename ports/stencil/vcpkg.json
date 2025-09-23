@@ -1,0 +1,39 @@
+{
+  "name": "stencil",
+  "version": "0.1.21",
+  "description": "Cross Platform Resource Embedding",
+  "homepage": "https://github.com/ankurvdev/stencil",
+  "license": "BSD-3-Clause",
+  "dependencies": [
+    {
+      "name": "stencil",
+      "host": true
+    },
+    {
+      "name": "vcpkg-cmake",
+      "host": true
+    },
+    "ankurvdev-embedresource",
+    "ankurvdev-lexyacc",
+    "boost-beast",
+    "boost-url",
+    "cxxopts",
+    "date",
+    "fmt",
+    "gsl",
+    "rapidjson",
+    "stduuid",
+    "tinyxml2",
+    "toml11",
+    "tsl-ordered-map"
+  ],
+  "features": {
+    "tests": {
+      "description": "Build with unittests",
+      "dependencies": [
+        "dtl",
+        "catch2"
+      ]
+    }
+  }
+}
