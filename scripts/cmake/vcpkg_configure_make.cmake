@@ -829,7 +829,6 @@ function(vcpkg_configure_make)
             # Target windows with wrappers enabled cannot forward ARFLAGS since it breaks the wrapper
             set(ENV{ARFLAGS} "${ARFLAGS_${current_buildtype}}")
         endif()
-
         if(VCPKG_TARGET_IS_OSX OR VCPKG_TARGET_IS_IOS)
             # configure not using all flags to check if compiler works ...
             set(ENV{CC} "$ENV{CC} $ENV{CPPFLAGS} $ENV{CFLAGS}")
