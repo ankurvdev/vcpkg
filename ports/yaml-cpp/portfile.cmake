@@ -1,12 +1,11 @@
 vcpkg_from_github(
     OUT_SOURCE_PATH SOURCE_PATH
     REPO jbeder/yaml-cpp
-    REF "${VERSION}"
-    SHA512 aae9d618f906117d620d63173e95572c738db518f4ff1901a06de2117d8deeb8045f554102ca0ba4735ac0c4d060153a938ef78da3e0da3406d27b8298e5f38e
+    REF 28f93bdec6387d42332220afa9558060c8016795
+    SHA512 c264c534b2fefed746bd38763520cc00ac1f7e0cd225dd34a8d5cc6fe39cd65a33095bda53bdd2c25f93e4250194a50672e75bd92b94b04434aceca2c7540808
     HEAD_REF master
-    PATCHES
-        "yaml-cpp-pr-1212.patch"
-        "yaml-cpp-pr-1310.patch"
+    #PATCHES
+    #    "yaml-cpp-pr-1212.patch"
 )
 
 string(COMPARE EQUAL "${VCPKG_LIBRARY_LINKAGE}" "dynamic" YAML_BUILD_SHARED_LIBS)
