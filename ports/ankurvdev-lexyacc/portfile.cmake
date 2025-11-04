@@ -1,8 +1,8 @@
 vcpkg_from_github(
     OUT_SOURCE_PATH SOURCE_PATH
     REPO ankurvdev/lexyacc
-    REF "3130ff6487c837ce70171588eedfba6e686c9c47"
-    SHA512 dcba079b8b7ef90b3f6e6d9b00e73d90c23b0a7ce435d3f9c698b24ac00dfb0e05663a9da9c73ee9f87f96f04a60c084fb33e6b128a35e41499416c42c9b1cbf
+    REF "78e195ddab7165d2e73a61a976e9eecbd7fed274"
+    SHA512 ab60ad4ca102247404f4fff97ebbcaa097ce821f30b828ae584181a129eea48c83de7de6a8ad076713b1181b4a975f59249fe60b02f0cc4b63b4f1ad92efa509
     HEAD_REF main)
 
 vcpkg_cmake_configure(
