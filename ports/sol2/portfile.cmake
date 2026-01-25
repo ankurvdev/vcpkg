@@ -6,6 +6,7 @@ vcpkg_from_github(
     HEAD_REF develop
     PATCHES
         header-only.patch
+	lua55.patch
 )
 
 set(VCPKG_BUILD_TYPE release) # header-only
