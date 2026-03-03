@@ -1,0 +1,15 @@
+set(VCPKG_TARGET_ARCHITECTURE x64)
+set(VCPKG_CRT_LINKAGE dynamic)
+set(VCPKG_LIBRARY_LINKAGE static)
+
+set(VCPKG_CMAKE_SYSTEM_NAME Linux)
+set(VCPKG_FIXUP_ELF_RPATH OFF)
+set(VCPKG_C_FLAGS "-march=native -mtune=native")
+set(VCPKG_CXX_FLAGS "-march=native -mtune=native")
+set(ENV{CFLAGS} "-march=native -mtune=native")
+set(ENV{CXXFLAGS} "-march=native -mtune=native")
+
+if(PORT MATCHES "qt")
+    set(VCPKG_C_FLAGS "-march=native -mtune=native -mno-cmpccxadd -mno-avxifma")
+    set(VCPKG_CXX_FLAGS "-march=native -mtune=native -mno-cmpccxadd -mno-avxifma")
+endif()
