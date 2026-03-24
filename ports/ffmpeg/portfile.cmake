@@ -148,7 +148,7 @@ if(VCPKG_DETECTED_CMAKE_STRIP)
     list(APPEND prog_env "${STRIP_path}")
 endif()
 
-if(VCPKG_HOST_IS_WINDOWS)
+if(VCPKG_HOST_IS_WINDOWS AND NOT VCPKG_TARGET_IS_MINGW)
     vcpkg_acquire_msys(MSYS_ROOT PACKAGES automake)
     set(SHELL "${MSYS_ROOT}/usr/bin/bash.exe")
     vcpkg_execute_required_process(
