@@ -4,7 +4,7 @@
   "description": "Tensors and Dynamic neural networks in Python with strong GPU acceleration",
   "homepage": "https://pytorch.org/",
   "license": null,
-  "supports": "(windows & !static) | osx | linux",
+  "supports": "windows | osx | linux",
   "dependencies": [
     "blas",
     "cpp-httplib",
@@ -64,7 +64,10 @@
       "description": "Build with CUDA GPU backend",
       "supports": "(windows & x64 & !staticcrt) | (linux & x64)",
       "dependencies": [
-        "cuda",
+        {
+          "name": "cuda",
+          "platform": "windows & !x86 & !static"
+        },
         "cudnn",
         {
           "name": "gloo",
