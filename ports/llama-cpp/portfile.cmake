@@ -1,8 +1,8 @@
 vcpkg_from_github(
     OUT_SOURCE_PATH SOURCE_PATH
-    REPO ggml-org/llama.cpp
-    REF b${VERSION}
-    SHA512 ef5e21b61ca2961004fc57ad9d4a07191458df4f1749e71a9dc96d653676a6d68d43b7b8c74ebb235f6dffe5c064330cb1124887bc5c119876d7292543321945
+    REPO ankurvdev/llama.cpp
+    REF 2df4c9b04d7981933138d37a7cb84c72fa0ca15b
+    SHA512 2e9607510f9ba86695c7546d6a67370e858b0c1341f7b3539f48d852673a8ec5447b2018955b156df6c5d8f87e4c7fc9f15ed09414679e54f92f3d8c31220357
     HEAD_REF master
     PATCHES
         cmake-config.diff
@@ -41,8 +41,6 @@ vcpkg_copy_pdbs()
 vcpkg_fixup_pkgconfig()
 
 file(INSTALL "${SOURCE_PATH}/gguf-py/gguf" DESTINATION "${CURRENT_PACKAGES_DIR}/tools/${PORT}/gguf-py")
-file(RENAME "${CURRENT_PACKAGES_DIR}/bin/convert_hf_to_gguf.py" "${CURRENT_PACKAGES_DIR}/tools/${PORT}/convert-hf-to-gguf.py")
-file(REMOVE "${CURRENT_PACKAGES_DIR}/debug/bin/convert_hf_to_gguf.py")
 
 if("tools" IN_LIST FEATURES)
     set(tool_names
