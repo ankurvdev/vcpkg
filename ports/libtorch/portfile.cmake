@@ -1,5 +1,3 @@
-vcpkg_check_linkage(ONLY_DYNAMIC_LIBRARY)
-
 vcpkg_from_github(
     OUT_SOURCE_PATH SOURCE_PATH
     REPO pytorch/pytorch
@@ -113,7 +111,7 @@ if("dist" IN_LIST FEATURES)
     if(VCPKG_TARGET_IS_LINUX OR VCPKG_TARGET_IS_OSX)
         list(APPEND FEATURE_OPTIONS -DUSE_TENSORPIPE=ON)
     endif()
-    if(VCPKG_TARGET_IS_OSX)
+    if(VCPKG_TARGET_IS_WINDOWS OR VCPKG_TARGET_IS_OSX)
         list(APPEND FEATURE_OPTIONS -DUSE_LIBUV=ON)
     endif()
     list(APPEND FEATURE_OPTIONS -DUSE_GLOO=${VCPKG_TARGET_IS_LINUX})
@@ -191,6 +189,20 @@ if(VCPKG_TARGET_IS_IOS OR VCPKG_TARGET_IS_OSX)
     set(TARGET_IS_APPLE ON)
 endif()
 
+if(VCPKG_TARGET_IS_ANDROID OR VCPKG_TARGET_IS_IOS)
+    list(APPEND FEATURE_OPTIONS -DINTERN_BUILD_MOBILE=ON)
+else()
+    list(APPEND FEATURE_OPTIONS -DINTERN_BUILD_MOBILE=OFF)
+endif()
+
+if(VCPKG_TARGET_IS_WINDOWS AND VCPKG_LIBRARY_LINKAGE STREQUAL "static")
+    # torch_cpu is too large to link statically (exceeds 4GB limit)
+    # INTERN_USE_EIGEN_BLAS=OFF is to make sure it uses system eigen blas
+    list(APPEND FEATURE_OPTIONS -DINTERN_BUILD_MOBILE=ON -DINTERN_USE_EIGEN_BLAS=OFF -DUSE_BLAS=OFF)
+    list(APPEND FEATURE_OPTIONS -DMSVC_Z7_OVERRIDE=OFF) # Reduce the size
+
+endif()
+
 string(COMPARE EQUAL "${VCPKG_CRT_LINKAGE}" "static" USE_STATIC_RUNTIME)
 vcpkg_cmake_configure(
     SOURCE_PATH "${SOURCE_PATH}"
@@ -245,7 +257,9 @@ file(WRITE "${SOURCE_PATH}/cmake/Modules/FindCUDAToolkit.cmake"
 vcpkg_cmake_install()
 vcpkg_copy_pdbs()
 
-vcpkg_cmake_config_fixup(PACKAGE_NAME Caffe2 CONFIG_PATH "share/cmake/Caffe2" DO_NOT_DELETE_PARENT_CONFIG_PATH)
+if(VCPKG_LIBRARY_LINKAGE STREQUAL dynamic)
+    vcpkg_cmake_config_fixup(PACKAGE_NAME Caffe2 CONFIG_PATH "share/cmake/Caffe2" DO_NOT_DELETE_PARENT_CONFIG_PATH)
+endif()
 vcpkg_cmake_config_fixup(PACKAGE_NAME torch CONFIG_PATH "share/cmake/Torch" DO_NOT_DELETE_PARENT_CONFIG_PATH)
 vcpkg_cmake_config_fixup(PACKAGE_NAME ATen CONFIG_PATH "share/cmake/ATen" )
 
