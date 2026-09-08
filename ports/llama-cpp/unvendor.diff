@@ -59,14 +59,14 @@ index 6f24f83..40a5c85 100644
 --- a/tools/server/server-http.cpp
 +++ b/tools/server/server-http.cpp
 @@ -2,7 +2,7 @@
- #include "server-http.h"
  #include "server-common.h"
+ #include "ui.h"
 
 -#include <cpp-httplib/httplib.h>
 +#include <httplib.h>
 
  #include <functional>
- #include <string>
+ #include <future>
 diff --git a/tools/server/server-models.cpp b/tools/server/server-models.cpp
 index 5a05ca2..3b7aef9 100644
 --- a/tools/server/server-models.cpp
