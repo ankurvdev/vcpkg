@@ -1,0 +1,4 @@
+Source: curses
+Version: 0.0.1
+Build-Depends: ncurses (linux), pdcurses (windows)
+Description: empty package, linking to other port
