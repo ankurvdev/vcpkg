@@ -1,0 +1,96 @@
+From 8f67f43aea7ac680ff46b1e4b5f0d9272496f5b7 Mon Sep 17 00:00:00 2001
+From: Ankur Verma <ankurv@nvidia.com>
+Date: Sat, 7 Nov 2026 12:27:51 -0800
+Subject: [PATCH] common_headers
+
+---
+ CMakeLists.txt             | 10 +++++++---
+ common/CMakeLists.txt      | 13 +++++++++++++
+ tools/mtmd/CMakeLists.txt  |  3 ++-
+ vendor/hash/CMakeLists.txt |  2 +-
+ 4 files changed, 23 insertions(+), 5 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 3086e81..5976157 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -254,7 +254,7 @@ if (LLAMA_BUILD_COMMON AND LLAMA_BUILD_TOOLS)
+     add_subdirectory(tools)
+ endif()
+ 
+-if (LLAMA_BUILD_APP)
++if (LLAMA_BUILD_APP AND LLAMA_BUILD_TOOLS AND LLAMA_BUILD_SERVER)
+     add_subdirectory(app)
+ endif()
+ 
+@@ -287,10 +287,14 @@ set_target_properties(llama
+     PROPERTIES
+         PUBLIC_HEADER "${LLAMA_PUBLIC_HEADERS}")
+ 
+-install(TARGETS llama LIBRARY PUBLIC_HEADER)
++install(TARGETS llama LIBRARY PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/llama)
+ 
+ if (LLAMA_BUILD_COMMON)
+-    install(TARGETS llama-common LIBRARY)
++    install(TARGETS llama-common llama-common-base
++        LIBRARY
++        PUBLIC_HEADER
++            DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/llama
++    )
+ endif()
+ 
+ configure_package_config_file(
+diff --git a/common/CMakeLists.txt b/common/CMakeLists.txt
+index 2b307c5..13fc1b5 100644
+--- a/common/CMakeLists.txt
++++ b/common/CMakeLists.txt
+@@ -133,6 +133,19 @@ set_target_properties(${TARGET} PROPERTIES
+     MACHO_CURRENT_VERSION 0 # keep macOS linker from seeing oversized version number
+ )
+ 
++set(LLAMA_COMMON_PUBLIC_HEADERS
++    "${CMAKE_CURRENT_LIST_DIR}/arg.h"
++    "${CMAKE_CURRENT_LIST_DIR}/common.h"
++    "${CMAKE_CURRENT_LIST_DIR}/download.h"
++    "${CMAKE_CURRENT_LIST_DIR}/hf-cache.h"
++    "${CMAKE_CURRENT_LIST_DIR}/log.h"
++    "${CMAKE_CURRENT_LIST_DIR}/sampling.h"
++)
++
++set_target_properties(llama-common
++    PROPERTIES
++        PUBLIC_HEADER "${LLAMA_COMMON_PUBLIC_HEADERS}")
++
+ target_include_directories(${TARGET} PUBLIC .)
+ target_link_libraries     (${TARGET} PUBLIC vendor::nlohmann vendor::sheredom)
+ target_compile_features   (${TARGET} PUBLIC cxx_std_17)
+diff --git a/tools/mtmd/CMakeLists.txt b/tools/mtmd/CMakeLists.txt
+index 2009893..f28cd43 100644
+--- a/tools/mtmd/CMakeLists.txt
++++ b/tools/mtmd/CMakeLists.txt
+@@ -112,7 +112,8 @@ set_target_properties(mtmd
+     PROPERTIES
+     PRIVATE_HEADER debug/mtmd-debug.h)
+ 
+-install(TARGETS mtmd LIBRARY PUBLIC_HEADER)
++include(GNUInstallDirs)
++install(TARGETS mtmd LIBRARY PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/llama)
+ 
+ if (NOT MSVC)
+     # for stb_image.h and miniaudio.h
+diff --git a/vendor/hash/CMakeLists.txt b/vendor/hash/CMakeLists.txt
+index 1654eb1..0321a4e 100644
+--- a/vendor/hash/CMakeLists.txt
++++ b/vendor/hash/CMakeLists.txt
+@@ -10,7 +10,7 @@ set(VENDOR_SRCS
+     sha256/sha256.c
+ )
+ 
+-add_library(${TARGET} STATIC
++add_library(${TARGET} OBJECT
+     hash.cpp
+     hash.h
+     ${VENDOR_SRCS}
+-- 
+2.56.0
+
