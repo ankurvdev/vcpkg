@@ -2,12 +2,13 @@ diff --git a/common/http.h b/common/http.h
 index 878ad1c..87d5456 100644
 --- a/common/http.h
 +++ b/common/http.h
-@@ -1,6 +1,6 @@
- #pragma once
- 
+@@ -2,7 +2,7 @@
+
+ #include "log.h"
+
 -#include <cpp-httplib/httplib.h>
 +#include <httplib.h>
- 
+
  #ifdef _WIN32
  #include <winsock2.h>
 diff --git a/tools/CMakeLists.txt b/tools/CMakeLists.txt
