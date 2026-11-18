@@ -1,0 +1,86 @@
+From 538e7bf2c1bf913ceeb64c31bc08e9c9d919cabd Mon Sep 17 00:00:00 2001
+From: Emil Askerov <emil.askerov@gmail.com>
+Date: Fri, 16 Oct 2026 22:40:28 +0300
+Subject: [PATCH] Fix: Add missing includes for std::back_inserter and
+ std::atomic
+
+Newer LLVM/libc++ versions (e.g. LLVM 23.1.3, llvm-mingw-20261006-ucrt) no longer transitively include <iterator> and <atomic>. This causes build failures in: modules/calib3d/src/stereo_geom.cpp, modules/gapi/include/opencv2/gapi/infer/ie.hpp (std::back_inserter), and modules/gapi/include/opencv2/gapi/gasync_context.hpp (std::atomic). Fixes build with modern LLVM/MinGW toolchains without CMake workarounds.
+---
+ modules/calib3d/src/stereo_geom.cpp                  | 1 +
+ modules/gapi/include/opencv2/gapi/gasync_context.hpp | 2 ++
+ modules/gapi/include/opencv2/gapi/infer/ie.hpp       | 1 +
+ 3 files changed, 4 insertions(+)
+
+diff --git a/modules/calib3d/src/stereo_geom.cpp b/modules/calib3d/src/stereo_geom.cpp
+index 4c91522bdcbc..e8da6a40c860 100644
+--- a/modules/calib3d/src/stereo_geom.cpp
++++ b/modules/calib3d/src/stereo_geom.cpp
+@@ -3,6 +3,7 @@
+ // of this distribution and at http://opencv.org/license.html
+ 
+ #include "precomp.hpp"
++#include <iterator>
+ 
+ namespace cv {
+ 
+diff --git a/modules/gapi/include/opencv2/gapi/gasync_context.hpp b/modules/gapi/include/opencv2/gapi/gasync_context.hpp
+index f49b59822d9d..7393c189865c 100644
+--- a/modules/gapi/include/opencv2/gapi/gasync_context.hpp
++++ b/modules/gapi/include/opencv2/gapi/gasync_context.hpp
+@@ -7,6 +7,8 @@
+ #ifndef OPENCV_GAPI_GASYNC_CONTEXT_HPP
+ #define OPENCV_GAPI_GASYNC_CONTEXT_HPP
+ 
++#include <atomic>
++
+ #if !defined(GAPI_STANDALONE)
+ #  include <opencv2/core/cvdef.h>
+ #else   // Without OpenCV
+diff --git a/modules/gapi/include/opencv2/gapi/infer/ie.hpp b/modules/gapi/include/opencv2/gapi/infer/ie.hpp
+index 9f9518d0b8e0..9b834aaabd98 100644
+--- a/modules/gapi/include/opencv2/gapi/infer/ie.hpp
++++ b/modules/gapi/include/opencv2/gapi/infer/ie.hpp
+@@ -11,6 +11,7 @@
+ #include <unordered_set>
+ #include <string>
+ #include <array>
++#include <iterator>
+ #include <tuple> // tuple, tuple_size
+ #include <map>
+ 
+diff --git a/modules/core/src/parallel/plugin_parallel_wrapper.impl.hpp b/modules/core/src/parallel/plugin_parallel_wrapper.impl.hpp
+index b9b3105..21c398e 100644
+--- a/modules/core/src/parallel/plugin_parallel_wrapper.impl.hpp
++++ b/modules/core/src/parallel/plugin_parallel_wrapper.impl.hpp
+@@ -10,6 +10,7 @@
+ // Dynamic backend implementation
+
+ #include "opencv2/core/utils/plugin_loader.private.hpp"
++#include <iterator>
+
+ namespace cv { namespace impl {
+
+diff --git a/modules/highgui/src/plugin_wrapper.impl.hpp b/modules/highgui/src/plugin_wrapper.impl.hpp
+index 042cd0f..7d5583b 100644
+--- a/modules/highgui/src/plugin_wrapper.impl.hpp
++++ b/modules/highgui/src/plugin_wrapper.impl.hpp
+@@ -10,6 +10,7 @@
+ // Dynamic backend implementation
+
+ #include "opencv2/core/utils/plugin_loader.private.hpp"
++#include <iterator>
+
+ namespace cv { namespace impl {
+
+diff --git a/modules/videoio/src/backend_plugin.cpp b/modules/videoio/src/backend_plugin.cpp
+index a38537c..6d3b93f 100644
+--- a/modules/videoio/src/backend_plugin.cpp
++++ b/modules/videoio/src/backend_plugin.cpp
+@@ -23,6 +23,7 @@
+
+ #include "backend_plugin_legacy.impl.hpp"
+
++#include <iterator>
+
+ namespace cv { namespace impl {
+

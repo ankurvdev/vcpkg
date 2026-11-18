@@ -7,6 +7,7 @@ vcpkg_from_github(
     SHA512 4f1e606cd24f74b49227a32bd1558882d3b01dbbadca8b49a0e07dd9fc6291b4c584d7f2c3951409758c3128dc53d38d84c4c7642c7a6f6a054a5eb9d5c6f91e
     HEAD_REF master
     PATCHES
+      0000-backinserter.patch
       0001-disable-downloading.patch
       0002-install-options.patch
       0003-force-package-requirements.patch
