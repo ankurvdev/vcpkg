@@ -20,6 +20,7 @@ cat > Makefile.vcpkg <<END_MAKEFILE ;
 BUILD_OPTIONS = \
     "AR=$AR" \
     "BUILD_CC=$CC" \
+    "BUILD_CFLAGS=$CFLAGS $LDFLAGS" \
     "CC=$CC" \
     "OBJCOPY=$OBJCOPY" \
     "RANLIB=$RANLIB" \
